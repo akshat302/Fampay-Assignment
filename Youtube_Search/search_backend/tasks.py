@@ -9,12 +9,12 @@ from .constants import YOUTUBE_SEARCH_URL, SEARCH_QUERY, API_KEY_LIST, MAX_RESUL
 @celery_app.task
 def fetch_video_data():
     
-    if len(API_KEY_LIST) == 0:
+    if not API_KEY_LIST:
         print("All API keys exhausted, need to add new keys")
         return 
     
     current_datetime = datetime.utcnow()
-    published_after = current_datetime - timedelta(hours=2)
+    published_after = current_datetime - timedelta(hours=4)
     published_after_iso_formatted = published_after.isoformat("T") + 'Z'
     key = API_KEY_LIST[-1]
     search_params = {
@@ -31,8 +31,12 @@ def fetch_video_data():
     except Exception as e:
         exhausted_key = API_KEY_LIST.pop()
         print(f"the API key {exhausted_key} got exhausted, using next available key")
-        new_key = API_KEY_LIST[-1]
 
+        if not API_KEY_LIST:
+            print("All API keys exhausted, need to add new keys")
+            return 
+        
+        new_key = API_KEY_LIST[-1]
         search_params["key"] = new_key
         response = save_video_data(new_key)
         print(response)
@@ -42,6 +46,7 @@ def save_video_data(search_params):
     response = requests.get(YOUTUBE_SEARCH_URL, params=search_params)
     data = json.loads(response.text)
     videos_data = data.get('items', [])
+    videos_saved_to_db  =[]
     for video in videos_data:
         video_data_dict = {
                 "title":video["snippet"]["title"],
@@ -54,8 +59,10 @@ def save_video_data(search_params):
             video_data_serializer = VideoDataSerializer(data=video_data_dict)
             if video_data_serializer.is_valid():
                 video_data = video_data_serializer.save()
-                return {"status": "SUCESS", "message": "vide data saved successfully to db", "data": video_data}
+                videos_saved_to_db.append(video_data_dict)
+                print("video data successfully saved to db", video_data_dict)
             else:
-                return {"status": "FAILED", "message": f"Some error occured while saving video data to db: {video_data_serializer.errors}"}
+                print(f"Some error occured while saving video data to db: {video_data_serializer.errors}")
         else:
-            return {"status": "FAILED", "message": f"The Video with the video id {video['id']['videoId']}  already exists in the db"}
+            print(f"The Video with the video id {video_data_dict['video_id']}  already exists in the db")
+    return {"status": "SUCESS", "message": "video data saved successfully to db", "data": videos_saved_to_db}
