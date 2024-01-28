@@ -10,7 +10,7 @@ celery_app.autodiscover_tasks()
 
 celery_app.conf.beat_schedule = {
     'fetch_video_data': {
-        'task': 'search_backend.tasks.fetch_and_store_video_data',
+        'task': 'search_backend.tasks.fetch_video_data',
         'schedule': 30.0  # It will run every 30 seconds
     }
 }
