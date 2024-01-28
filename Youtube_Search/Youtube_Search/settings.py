@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,11 +86,11 @@ WSGI_APPLICATION = "Youtube_Search.wsgi.application"
 DATABASES = {
      'default': {
          'ENGINE': 'djongo',
-         'NAME': 'Youtube_Search_DB',
+         'NAME': os.environ.get("DATABASE_NAME", "Youtube_Search_DB"),
             'CLIENT': {
-                'host': 'mongodb+srv://mongodb_user:WIb0aSCWoXXwZL8X@cluster0.0vrpdwq.mongodb.net/',
-                'username': 'mongodb_user',
-                'password': 'WIb0aSCWoXXwZL8X',
+                'host': os.environ.get("DATABASE_URI", "mongodb+srv://mongodb_user:WIb0aSCWoXXwZL8X@cluster0.0vrpdwq.mongodb.net/"),
+                'username': os.environ.get("DATABASE_USER", "mongodb_user"),
+                'password': os.environ.get("DATABASE_PASSWORD", "WIb0aSCWoXXwZL8X"),
             }
      }
 }

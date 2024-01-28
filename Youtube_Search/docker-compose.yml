@@ -10,10 +10,10 @@ services:
     container_name: Youtube_Search
     ports: "8000:8000"
     environment: 
-      DATABASE_USER: 
-      DATABASE_PASSWORD: 
-      DATABASE_NAME: 
-      DATABASE_URI:
+      DATABASE_USER: mongodb_user
+      DATABASE_PASSWORD: WIb0aSCWoXXwZL8X
+      DATABASE_NAME: Youtube_Search_DB
+      DATABASE_URI: mongodb+srv://mongodb_user:WIb0aSCWoXXwZL8X@cluster0.0vrpdwq.mongodb.net/
 
   celery:
     build: .
