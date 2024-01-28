@@ -20,7 +20,7 @@ Assignment Link - https://fampay.notion.site/fampay/Backend-Assignment-FamPay-32
 
 VideoData:
 
-	  title: title of the video
+    title: title of the video
     description: description of the video
     thumbnail_url: url of the thumbnail of the video
     publish_datetime = published datetime of the video
