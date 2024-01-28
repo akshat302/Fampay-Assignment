@@ -15,7 +15,7 @@ Assignment Link - https://fampay.notion.site/fampay/Backend-Assignment-FamPay-32
 ### Entities  
 
 1. VideoData
-2. 
+
 ### Database Models 
 
 VideoData:
