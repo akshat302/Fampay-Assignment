@@ -10,7 +10,7 @@ from search_backend.models import VideoData
 
 class VideoDataListView(ListAPIView):
     
-    queryset = VideoData.objects.all().order_by("publish_datetime")
+    queryset = VideoData.objects.all().order_by("-publish_datetime")
     serializer_class = VideoDataSerializer
     pagination_class = PageNumberPagination
 
@@ -27,7 +27,7 @@ class SearchVideView(ListAPIView):
             if not search_query:
                 return Response({"status": "FAILED", "message": "search query not provided"}, status=status.HTTP_400_BAD_REQUEST)
         
-            videos_query_set = VideoData.objects.all().order_by("publish_datetime")
+            videos_query_set = VideoData.objects.all().order_by("-publish_datetime")
             search_results = videos_query_set.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query)).all()
 
             page = self.paginate_queryset(search_results)
