@@ -15,7 +15,7 @@ class VideoDataListView(ListAPIView):
     pagination_class = PageNumberPagination
 
 
-class SearchVideView(ListAPIView):
+class SearchVideoView(ListAPIView):
 
     serializer_class = VideoDataSerializer
     pagination_class = PageNumberPagination
