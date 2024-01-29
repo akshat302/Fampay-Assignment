@@ -25,8 +25,8 @@ services:
 
   celery-beat:
     build: .
-      command: celery -A Youtube_Search beat --loglevel=info
-      volumes:
-        - .:/Youtube_Search
-      depends_on: 
-        - redis
+    command: celery -A Youtube_Search beat --loglevel=info
+    volumes:
+      - .:/Youtube_Search
+    depends_on: 
+      - redis
