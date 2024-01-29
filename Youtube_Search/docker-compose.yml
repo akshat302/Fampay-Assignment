@@ -6,9 +6,11 @@ services:
   app:
     build: .
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes: .:/Youtube_Search
+    volumes: 
+      - .:/Youtube_Search
     container_name: Youtube_Search
-    ports: "8000:8000"
+    ports: 
+      - "8000:8000"
     environment: 
       DATABASE_USER: mongodb_user
       DATABASE_PASSWORD: WIb0aSCWoXXwZL8X
